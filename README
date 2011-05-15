@@ -1,0 +1,17 @@
+# artem
+
+Clojure support for the MiGLayout layout manager
+http://www.miglayout.com/
+
+## Usage
+
+Example:
+
+  (use '[clojure.contrib.miglayout.test :as mlt :only ()])
+  (dotimes [i 5] (mlt/run-test i))
+
+## License
+
+Copyright (C) 2011 Stephen C. Gilardi
+
+Distributed under the Eclipse Public License, the same as Clojure.
