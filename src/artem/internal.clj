@@ -20,6 +20,9 @@
            net.miginfocom.layout.ConstraintParser
            net.miginfocom.swing.MigLayout))
 
+(defn- as-str [x]
+  ((if (keyword? x) name str) x))
+
 (declare format-constraints)
 
 (defn format-constraint
@@ -46,7 +49,7 @@
        (mapcat format-constraint)
        (reduce concat [])
        (rest)
-       (map name)
+       (map as-str)
        (apply str)))
 
 (defn component?
