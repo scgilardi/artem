@@ -20,7 +20,7 @@
 
 (defrecord item-constraints [keywords components])
 
-(defn- as-str [x]
+(defn as-str [x]
   ((if (keyword? x) name str) x))
 
 (declare format-constraints)
