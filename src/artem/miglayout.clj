@@ -27,10 +27,10 @@ Example:
 
   (use '[artem.test.miglayout :as amt :only ()])
   (dotimes [i 5] (amt/run-test i))
-
 "}
   artem.miglayout
-  (:use artem.internal)
+  (:use [artem.internal :only [set-layout! parse-item-constraints
+                               get-components]])
   (:import javax.swing.JComponent))
 
 (defn miglayout
@@ -48,7 +48,7 @@ Example:
   Item:
 
     - An item is either a Component or one of the keywords :layout
-     :column or :row. Constraints for a keyword item affect the entire
+      :column or :row. Constraints for a keyword item affect the entire
       layout.
 
   Constraint: string, keyword, vector, map, or set
@@ -65,11 +65,8 @@ Example:
   Any items marked with an \"id\" constraint will be included in a map from
   id to component attached to the container. The map can be retrieved using
   artem.miglayout/components."
-  [^JComponent container & args]
-  (let [item-constraints (apply parse-item-constraints args)
-        {:keys [keywords components]} item-constraints
-        {:keys [layout column row]} keywords]
-    (set-layout! container layout column row components)))
+  [^JComponent container & item-constraints]
+  (set-layout! container (parse-item-constraints item-constraints)))
 
 (defn components
   "Returns a map from id (a keyword) to component for all components with
