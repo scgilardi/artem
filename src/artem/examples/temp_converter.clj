@@ -14,9 +14,10 @@
 ;;  migrated from clojure.contrib.miglayout 15 May 2011
 
 (ns artem.examples.temp-converter
-  (:use ([artem.miglayout :only (miglayout components)]))
+  (:use [artem.miglayout :only [miglayout components]])
   (:import (javax.swing JButton JFrame JLabel JPanel JTextField
-                        SwingUtilities)))
+                        SwingUtilities)
+           (java.awt.event KeyAdapter)))
 
 (defn- add-key-typed-listener
   "Adds a KeyListener to component that only responds to KeyTyped events.
