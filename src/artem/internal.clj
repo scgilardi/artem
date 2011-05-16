@@ -18,6 +18,8 @@
            net.miginfocom.layout.ConstraintParser
            net.miginfocom.swing.MigLayout))
 
+(defrecord item-constraints [keywords components])
+
 (defn- as-str [x]
   ((if (keyword? x) name str) x))
 
@@ -67,9 +69,9 @@
   :keywords and :components. The value for :keywords is a map from keyword
   items to constraints strings. The value for :components is a vector of
   vectors each associating a component with its constraints string."
-  [& args]
+  [args]
   (loop [[item & args] args
-         item-constraints {:keywords {} :components []}]
+         item-constraints (item-constraints. {} [])]
     (if item
       (let [[constraints args] (split-with constraint? args)]
         (recur args
@@ -100,7 +102,8 @@
 (defn set-layout!
   "Attaches a MigLayout layout manager to container and adds components
   with constraints"
-  [^JComponent container layout column row components]
+  [^JComponent container
+   {:keys [{:keys [layout column row] :as keywords} components]}]
   (doto container
     (.setLayout (MigLayout. layout column row))
     (add-components components)))
