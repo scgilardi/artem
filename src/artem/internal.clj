@@ -81,29 +81,27 @@
                 conj [item (apply format-constraints constraints)])))
       item-constraints)))
 
-(defn add-components
+(defn add-component-constraints!
   "Adds components with constraints to a container"
-  [^JComponent container components]
-  (loop [[[^Component component constraint] & components] components
-         id-map nil]
+  [^JComponent container ccs]
+  (loop [[[^Component component constraint] & ccs] ccs id-map nil]
     (if component
-      (let [cc (ConstraintParser/parseComponentConstraint constraint)]
-        (.add container component cc)
-        (recur components (if-let [id (.getId cc)]
-                            (assoc id-map (keyword id) component)
-                            id-map)))
-      (doto container (.putClientProperty ::components id-map)))))
+      (let [constraint (ConstraintParser/parseComponentConstraint constraint)
+            id (.getId constraint)]
+        (.add container component constraint)
+        (recur ccs (if id (assoc id-map (keyword id) component) id-map)))
+      (.putClientProperty container ::components id-map))))
+
+(defn set-layout!
+  "Attaches a MigLayout layout manager to container and adds components
+  with constraints"
+  [^JComponent container item-constraints]
+  (let [{:keys [keywords components]} (parse-item-constraints item-constraints)
+        {:keys [layout column row]} keywords]
+    (.setLayout container (MigLayout. layout column row))
+    (add-component-constraints! container components)))
 
 (defn get-components
   "Returns a map from id to component for all components with an id"
   [^JComponent container]
   (.getClientProperty container ::components))
-
-(defn set-layout!
-  "Attaches a MigLayout layout manager to container and adds components
-  with constraints"
-  [^JComponent container
-   {:keys [{:keys [layout column row] :as keywords} components]}]
-  (doto container
-    (.setLayout (MigLayout. layout column row))
-    (add-components components)))

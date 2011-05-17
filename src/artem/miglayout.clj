@@ -25,12 +25,11 @@ http://www.miglayout.com/
 
 Example:
 
-  (use '[artem.test.miglayout :as amt :only ()])
-  (dotimes [i 5] (amt/run-test i))
+  (use '[artem.test.miglayout :as atm :only ()])
+  (dotimes [i 5] (atm/run-test i))
 "}
   artem.miglayout
-  (:use [artem.internal :only [set-layout! parse-item-constraints
-                               get-components]])
+  (:use [artem.internal :only [set-layout! get-components]])
   (:import javax.swing.JComponent))
 
 (defn miglayout
@@ -66,7 +65,7 @@ Example:
   id to component attached to the container. The map can be retrieved using
   artem.miglayout/components."
   [^JComponent container & item-constraints]
-  (set-layout! container (parse-item-constraints item-constraints)))
+  (doto container (set-layout! item-constraints)))
 
 (defn components
   "Returns a map from id (a keyword) to component for all components with
