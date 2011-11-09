@@ -20,10 +20,7 @@
   (:use [artem.miglayout]
         [clojure.test]))
 
-(deftest replace-me ;; FIXME: write
-  (is false "No tests have been written."))
-
-(def tests)
+(declare tests)
 
 (defn run-test
   [index]
@@ -147,4 +144,4 @@
       (text-field)        {:id :surname} :wrap
       (label "Address")
       (text-field)        {:id :address} :span :grow))
-])
+  ])
