@@ -7,8 +7,8 @@ http://www.miglayout.com/
 
 Example:
 
-  (use '[clojure.contrib.miglayout.test :as mlt :only ()])
-  (dotimes [i 5] (mlt/run-test i))
+  (require '[artem.test.miglayout :as atm])
+  (dotimes [i 5] (atm/run-test i))
 
 ## License
 
